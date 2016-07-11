@@ -10,7 +10,7 @@ class Slab(object):
 
     """
 
-    def __init__(self,name):
+    def __init__(self,name=None):
         self.name = name
         self.shape = None
         self.seismicity = None
@@ -25,7 +25,7 @@ class Slab(object):
         '''
         pass
 
-    def plot_seismicity(model):
+    def plot_seismicity():
         '''
         Plot slab cross section in given model.
         Potential model names are : ???
