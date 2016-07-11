@@ -3,7 +3,7 @@ import numpy as np
 
 
 
-class Slabs(object):
+class Slab(object):
 
     """
     Base class for all slabs.
@@ -11,7 +11,7 @@ class Slabs(object):
     """
 
     def __init__(self,name):
-        self.name = None
+        self.name = name
         self.shape = None
         self.seismicity = None
         self.slabneighbors = None
