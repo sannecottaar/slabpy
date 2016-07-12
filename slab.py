@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
 import plotting_tools as pts
 
-
 class Slab(object):
 
     """
@@ -65,7 +64,7 @@ class Slab(object):
 
             m.drawcoastlines()
 
-            #Add tectonic plate boundaries
+            #Add tectonic plate boundaries - this doesn't work very well
             # self.faults = pts.read_faults('data/plates.xy')
             # for i in self.faults:
             #     faults_lons = self.faults[i][0]
