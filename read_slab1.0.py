@@ -6,6 +6,7 @@ from scipy.io import netcdf
 from slab import Slab
 from catalog import Catalog
 import glob
+import matplotlib.pyplot as plt
 
 
 def read_slabdata():
@@ -19,7 +20,7 @@ def read_slabdata():
 	slabbounds = {}
 	slabbounds['Alaska'] = {'Filename' : 'alu_slab1.0_clip.grd'}
 	slabbounds['Cascadia'] = {'Filename' :'cas_slab1.0_clip.grd'}
-	slabbounds['IzuBonin'] = {'Filename' : 'izu_slab1.0_clip.grd'}
+	slabbounds['Izu-Bonin'] = {'Filename' : 'izu_slab1.0_clip.grd'}
 	slabbounds['Mexico'] = {'Filename' : 'mex_slab1.0_clip.grd'}
 	slabbounds['Tonga'] = {'Filename' : 'ker_slab1.0_clip.grd'}
 	slabbounds['Japan'] = {'Filename' : 'kur_slab1.0_clip.grd'}
@@ -28,7 +29,7 @@ def read_slabdata():
 	slabbounds['Vanautu'] = {'Filename' : 'van_slab1.0_clip.grd'}
 	slabbounds['Scotia'] = {'Filename' : 'sco_slab1.0_clip.grd'}
 	slabbounds['Solomon'] = {'Filename' : 'sol_slab1.0_clip.grd'}
-	slabbounds['SouthAmerica'] = {'Filename' : 'sam_slab1.0_clip.grd'}
+	slabbounds['South_America'] = {'Filename' : 'sam_slab1.0_clip.grd'}
 	slabbounds['Sumatra'] = {'Filename' : 'sum_slab1.0_clip.grd'}
 
 	#try:
@@ -56,7 +57,7 @@ def read_slabdata():
 
 		minlat = min(lats)
 		maxlat = max(lats)
-		minlon = max(lons)
+		minlon = min(lons)
 		maxlon = max(lons)
 
 		boundingbox = [minlon,maxlon,minlat,maxlat]
@@ -82,11 +83,18 @@ def read_slabdata():
 
 
 
-
 if __name__ == '__main__':
 
 	Slabs, slabbounds = read_slabdata()
 	
-	Slabs.print_slabs()
+	slist = Slabs.slabs
+
+	#Testing slab plotting ability
+
+	for slab in slist:
+
+		axisobj, mapobj = slab.map_slab1()
+		plt.show()
+
 
 
