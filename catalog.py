@@ -36,7 +36,6 @@ class Catalog(object):
 
         for slab in self.slabs:
             slab.print_slab1_details()
->>>>>>> 6b3f67d839095bc67c56f1cb4e5bed89bed3fc4a
 
 
     def list(self,name):
