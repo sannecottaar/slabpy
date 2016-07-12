@@ -3,7 +3,6 @@ CC     = gcc
 
 MAKE   = make
 BINDIR = ../bin
-LIB    = libS20_lnx
 LIB    = libS20
 
 all: calc colgrep depmaphj_jr distaz2latlon mdlwellln_jr mkcut_jr mkrb_jr raw2xyz_jr
