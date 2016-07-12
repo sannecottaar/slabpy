@@ -1,3 +1,5 @@
+#!/usr/bin/env python 
+
 from __future__ import print_function
 import numpy as np
 
@@ -19,6 +21,14 @@ class Catalog(object):
         self.slabs=[]
         if slabs:
             self.slabs.extend([slabs])
+
+    def print_slabs(self):
+        '''
+        For debugging - just print the slab database
+        '''
+
+        for slab in self.slabs:
+            slab.print_slab1_details()
 
 
     def list(self,name):
