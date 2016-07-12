@@ -3,6 +3,8 @@ import numpy as np
 
 from slab import Slab
 import matplotlib.pyplot as plt
+import pandas
+import seaborn as sns
 
 """
 Shamelessly copied implementations from Stream() and Trace() in ObsPy
@@ -11,7 +13,7 @@ Shamelessly copied implementations from Stream() and Trace() in ObsPy
 class Catalog(object):
 
     """
-    Base class for all slabs.
+    Base class for slab Catalogs
 
     """
 
@@ -20,12 +22,43 @@ class Catalog(object):
         if slabs:
             self.slabs.extend([slabs])
 
+    def __len__(self):
+        """
+        """
+        return len(self.slabs)
+
 
     def list(self,name):
+        """
+        Return a parameter across all slabs
+        """
         z=[]
         for i in range(len(self.slabs)):
             z.append(getattr(self.slabs[i],name))
         return z
+
+    def pandas_data_frame(self,params):
+        """
+        Return a parameter across all slabs
+        """
+        d = dict()
+        for p in range(len(params)):
+            z=[]
+            for i in range(len(self.slabs)):
+                z.append(getattr(self.slabs[i],params[p]))
+            d[params[p]]=z
+        df=pandas.DataFrame(data=d)
+        return df
+
+    def seaborn_data_frame(self,params):
+        """
+        Return a parameter across all slabs
+        """
+        d = np.zeros((len(self),len(params)))
+        for p in range(len(params)):
+            for i in range(len(self.slabs)):
+                d[i,p]=getattr(self.slabs[i],params[p])
+        return d
 
 
     def append(self, slab):
@@ -40,6 +73,20 @@ class Catalog(object):
         return self
 
     def plot_two_parameters(self,param1,param2):
+        """
+        Plots two parameters from the catalog against each other. 
+        """
         plt.plot(self.list(param1),self.list(param2),'.k' )
         plt.xlabel(param1)
         plt.ylabel(param2)
+
+
+    def scatter_corrplot_parameters(self,params):
+        """
+        Plots two parameters from the catalog against each other.
+        """
+        snsdf = self.pandas_data_frame(params)
+        print(snsdf)
+        sns.pairplot(snsdf)
+
+
