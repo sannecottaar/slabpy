@@ -1,3 +1,6 @@
+#!/usr/bin/env python 
+
+
 from __future__ import print_function
 import numpy as np
 from slab import Slab
@@ -40,12 +43,8 @@ def read_syracuse():
             slabs.append(slab) # Add slab object to catalot
     return slabs
 
-
-# Read in Syracuse thermal paramaters
 def read_syracuse_thermal(sub='d80'):
     file = open('data/syracuseetal_parameters_'+sub+'.txt','r')
-
-
     slabs=Catalog() # Initialize Catalog object
     for line in file.readlines():
         val = line.split()
