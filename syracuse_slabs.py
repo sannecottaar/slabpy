@@ -1,10 +1,11 @@
+#!/usr/bin/env python 
+
+
 from __future__ import print_function
 import numpy as np
 from slab import Slab
 from catalog import Catalog
 import matplotlib.pyplot as plt
-
-
 
 
 def read_seracuse():
