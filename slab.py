@@ -57,8 +57,8 @@ class Slab(object):
             #Create grid uniformly spaced grid
             nx = int((m.xmax-m.xmin)/0.1)+1; ny = int((m.ymax-m.ymin)/0.1)+1
 
-            topodat = m.transform_scalar(self.slab1_details['Depth_array'],self.slab1_details['Lon_array'],self.slab1_details['Lat_array'],nx,ny)
-            im = m.imshow(topodat)
+            slabdat = m.transform_scalar(self.slab1_details['Depth_array'],self.slab1_details['Lon_array'],self.slab1_details['Lat_array'],nx,ny)
+            im = m.imshow(slabdat)
 
             m.drawparallels(np.arange(minlat,maxlat,((maxlat-minlat)/5)),labels=[1,1,0,0],linewidth=0.5,fontsize=10)
             m.drawmeridians(np.arange(minlon,maxlon,((maxlon-minlon)/5)),labels=[0,0,0,1],linewidth=0.5,fontsize=10)

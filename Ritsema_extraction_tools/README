@@ -1,0 +1,11 @@
+This directory contains J. Ritsema's fortran codes for extracting maps and cross sections from various tomography models, which 
+can be found in the Models directory. The python script in here is set up to extract global depth sections every 10km, but can be modified to extract a section at some particular depth. The sections are output as .xyz files, which can then be converted into netcdf format for use with 
+GMT or some other tool
+
+To compile:
+
+- Go to lib/libS20a and type 'Make'
+- Go to src and type 'Make'
+
+This requires gcc 
+
