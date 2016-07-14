@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
 import plotting_tools as pts
 
+
 class Slab(object):
 
     """
@@ -15,11 +16,17 @@ class Slab(object):
     """
 
     def __init__(self,name=None):
-        self.name = name
+        self.params=dict()
+        self.params['name'] = name
         self.shape = None
         self.seismicity = None
         self.slabneighbors = None
         self.slab1_details = None
+    
+    def merge_in_dict(self, y):
+        '''Merge new dictionary .'''
+        self.params.update(y.params)
+        return self
 
     def add_slab1_details(self,indict):
         '''
