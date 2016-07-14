@@ -59,7 +59,7 @@ class Catalog(object):
         z=[]
         for i in range(len(self.slabs)):
             try:
-                z.append(self.slabs[i].params['name'])
+                z.append(self.slabs[i].params[name])
             except:
                 z.append(np.nan)
         return z
