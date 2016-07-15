@@ -28,6 +28,20 @@ class Catalog(object):
         """
         """
         return len(self.slabs)
+    
+    
+    def __add__(self, Cat2):
+        """
+        """
+        names = Cat2.list('name')
+        for i,slab in enumerate(self.slabs):
+            if slab.params['name'] in names:
+                ind =[i for i in range(len(names)) if slab.params['name']== names[i]]
+                self.slabs[i]= slab.merge_in_dict(Cat2.slabs[ind[0]])
+
+        return self
+    
+
 
     def print_slabs(self):
         '''
@@ -44,30 +58,37 @@ class Catalog(object):
         """
         z=[]
         for i in range(len(self.slabs)):
-            z.append(getattr(self.slabs[i],name))
+            try:
+                z.append(self.slabs[i].params[name])
+            except:
+                z.append(np.nan)
         return z
 
     def pandas_data_frame(self,params):
         """
-        Return a parameter across all slabs
+        Setup Pandas data frame
         """
         d = dict()
         for p in range(len(params)):
             z=[]
             for i in range(len(self.slabs)):
-                z.append(getattr(self.slabs[i],params[p]))
+                try:
+                    z.append(self.slabs[i].params[params[p]])
+                except:
+                    z.append(np.nan)
             d[params[p]]=z
         df=pandas.DataFrame(data=d)
+        df.fillna(0.)
         return df
 
     def seaborn_data_frame(self,params):
         """
-        Return a parameter across all slabs
+        Setup Seaborn data frame
         """
         d = np.zeros((len(self),len(params)))
         for p in range(len(params)):
             for i in range(len(self.slabs)):
-                d[i,p]=getattr(self.slabs[i],params[p])
+                d[i,p]=self.slabs[i].params[params[p]]
         return d
 
 
@@ -97,6 +118,6 @@ class Catalog(object):
         """
         snsdf = self.pandas_data_frame(params)
         print(snsdf)
-        sns.pairplot(snsdf)
+        sns.pairplot(snsdf,dropna=True, size=10)
 
 

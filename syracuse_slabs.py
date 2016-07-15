@@ -6,6 +6,7 @@ import numpy as np
 from slab import Slab
 from catalog import Catalog
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Read in Syracuse slab catalog
 def read_syracuse():
@@ -27,17 +28,18 @@ def read_syracuse():
                     name = name + ' ' +val[i]
             print(val,savei)
             slab=Slab(name) # Initialize slab object
-            slab.lon= float(val[savei+1])
-            slab.lat = float(val[savei+2])
-            slab.H = float(val[savei+3])
-            slab.arc_trench_distance = float(val[savei+4])
-            slab.slab_dip = float(val[savei+5])
-            slab.Vc = float(val[savei+6])
-            slab.age = float(val[savei+7])
-            slab.decent_rate = float(val[savei+8])
-            slab.sediment_thickness = float(val[savei+9])
-            slab.subducted_sediment_thickness = float(val[savei+10])
-            slab.upper_plate_type = val[savei+11]
+            slab.params['lon']= float(val[savei+1])
+            slab.params['lat'] = float(val[savei+2])
+            slab.params['H'] = float(val[savei+3])
+            slab.params['arc_trench_distance'] = float(val[savei+4])
+            slab.params['slab_dip'] = float(val[savei+5])
+            slab.params['Vc'] = float(val[savei+6])
+            slab.params['age'] = float(val[savei+7])
+            slab.params['decent_rate'] = float(val[savei+8])
+            slab.params['thermal_parameter'] = float(val[savei+9])
+            slab.params['sediment_thickness'] = float(val[savei+10])
+            slab.params['subducted_sediment_thickness'] = float(val[savei+11])
+            slab.params['upper_plate_type'] = val[savei+12]
             #slab.upper_plate_thickness = float(val[savei+12])
             #slab.upper_plate_age = float(val[savei+13])
             slabs.append(slab) # Add slab object to catalot
@@ -60,21 +62,36 @@ def read_syracuse_thermal(sub='d80'):
                     name = name + ' ' +val[i]
 
             slab=Slab(name) # Initialize slab object
-            slab.transition_depth = float(val[savei+1])
-            slab.transition_T = float(val[savei+2])
-            slab.slab_T = float(val[savei+3])
-            slab.moho_T = float(val[savei+4])
-            slab.max_mantle_T = float(val[savei+5])
-            slab.max_mantle_T_depth = float(val[savei+6])
-            slab.transition_offset = float(val[savei+7])
-            slab.slab_surface_T_30km = float(val[savei+8])
-            slab.slab_surface_T_240km = float(val[savei+9])
-            slab.min_slab_T_240km = float(val[savei+10])
-        slabs.append(slab) # Add slab object to catalot
+            slab.params['transition_depth'] = float(val[savei+1])
+            slab.params['transition_T'] = float(val[savei+2])
+            slab.params['slab_T'] = float(val[savei+3])
+            slab.params['moho_T'] = float(val[savei+4])
+            slab.params['max_mantle_T'] = float(val[savei+5])
+            slab.params['max_mantle_T_depth'] = float(val[savei+6])
+            slab.params['transition_offset'] = float(val[savei+7])
+            slab.params['slab_surface_T_30km']= float(val[savei+8])
+            slab.params['slab_surface_T_240km'] = float(val[savei+9])
+            slab.params['min_slab_T_240km'] = float(val[savei+10])
+            slabs.append(slab) # Add slab object to catalot
     return slabs
 
 
 # Read and plot Syracuse Catalog
 slabs = read_syracuse()
-slabs.scatter_corrplot_parameters(('slab_dip','Vc','age','decent_rate'))
+
+#Read and add in in thermal parameters
+slabs = slabs+ read_syracuse_thermal('d80'))
+
+## Plots scatter plot # cannot deal yet with NaN
+#slabs.scatter_corrplot_parameters(('slab_dip','Vc','age','decent_rate','sediment_thickness','subducted_sediment_thickness','thermal_parameter','sediment_thickness'))
+#plt.savefig('scatter.png')
+
+# create a Pandas data frame
+df= slabs.pandas_data_frame(slabs.slabs[0].params.keys())
+
+## Plot correlation matrix (I think this ignores parameters with NaN)
+corr = df.corr()
+mask = np.zeros_like(corr, dtype=np.bool)
+mask[np.triu_indices_from(mask,k=1)] = True
+sns.heatmap(corr,mask=mask)
 plt.show()
